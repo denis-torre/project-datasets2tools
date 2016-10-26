@@ -63,7 +63,8 @@ CREATE TABLE `tool` (
 	`id` INT AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(20) NOT NULL,
 	`icon_url` VARCHAR(100) NOT NULL,
-	`tool_url` VARCHAR(100) NOT NULL
+	`tool_url` VARCHAR(100) NOT NULL,
+	`description` TEXT
 );
 
 ##############################
@@ -74,12 +75,35 @@ DROP TABLE IF EXISTS `attribute`;
 CREATE TABLE `attribute` (
 	# Fields
 	`id` INT AUTO_INCREMENT PRIMARY KEY,
+    `tool_fk` INT NOT NULL,
 	`name` VARCHAR(20) NOT NULL,
-	`description` VARCHAR(100)
+	`description` TEXT,
+    
+    # Foreign keys
+	FOREIGN KEY (tool_fk)
+		REFERENCES tool(id)
+		ON DELETE RESTRICT
 );
 
 ##############################
-##### 1.5 Analysis
+##### 1.5 Attribute value
+##############################
+
+DROP TABLE IF EXISTS `attribute_value`;
+CREATE TABLE `attribute_value` (
+	# Fields
+	`id` INT AUTO_INCREMENT PRIMARY KEY,
+    `attribute_fk` INT NOT NULL,
+	`value` VARCHAR(50) NOT NULL,
+    
+    # Foreign keys
+	FOREIGN KEY (attribute_fk)
+		REFERENCES attribute(id)
+		ON DELETE RESTRICT
+);
+
+##############################
+##### 1.6 Analysis
 ##############################
 
 DROP TABLE IF EXISTS `analysis`;
@@ -100,11 +124,11 @@ CREATE TABLE `analysis` (
 );
 
 ##############################
-##### 1.6 Analysis result
+##### 1.7 Analysis result
 ##############################
 
-DROP TABLE IF EXISTS `analysis_results`;
-CREATE TABLE `analysis_results` (
+DROP TABLE IF EXISTS `analysis_result`;
+CREATE TABLE `analysis_result` (
 	# Fields
 	`id` INT AUTO_INCREMENT PRIMARY KEY,
 	`analysis_fk` INT NOT NULL,
