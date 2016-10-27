@@ -23,7 +23,7 @@ SET FOREIGN_KEY_CHECKS=0;
 #######################################################
 
 ##############################
-##### 1.1 Database
+##### 2.1 Database
 ##############################
 
 INSERT INTO `db` (`name`) VALUES
@@ -53,7 +53,7 @@ INSERT INTO `db` (`name`) VALUES
 
 
 ##############################
-##### 1.2 Tool
+##### 2.2 Tool
 ##############################
 
 INSERT INTO `tool` (`name`, `icon_url`, `tool_url`, `description`) VALUES
@@ -64,7 +64,7 @@ INSERT INTO `tool` (`name`, `icon_url`, `tool_url`, `description`) VALUES
 	('Slicr', 'http://labs.icahn.mssm.edu/maayanlab/wp-content/uploads/sites/75/2014/10/slicr2.fw_.png', 'http://amp.pharm.mssm.edu/Slicr', 'Slicr is a metadata search engine that searches for LINCS L1000 gene expression profiles and signatures matching users’ input parameters.');
 
 ##############################
-##### 1.3 Attribute
+##### 2.3 Attribute
 ##############################
 
 INSERT INTO `attribute` (`tool_fk`, `name`, `description`) VALUES
@@ -74,7 +74,7 @@ INSERT INTO `attribute` (`tool_fk`, `name`, `description`) VALUES
 	('1', 'pvalue_threshold', 'P-value cutoff threshold, when the differential expresison method is a T-test.');
 
 ##############################
-##### 1.4 Attribute value
+##### 2.4 Attribute value
 ##############################
 
 INSERT INTO `attribute_value` (`attribute_fk`, `value`) VALUES

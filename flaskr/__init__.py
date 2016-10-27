@@ -13,10 +13,15 @@
 ##############################
 # Python Libraries
 import sys
+import pandas as pd
 
 # Flask Libraries
 from flask import Flask, request, render_template
 from flaskext.mysql import MySQL
+
+# Custom libraries
+sys.path.append('static/lib')
+from lib import *
 
 ##############################
 ##### 1.2 Setup MySQL
@@ -30,7 +35,7 @@ mysql = MySQL()
 # Configure MySQL Connection
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'MyNewPass'
-app.config['MYSQL_DATABASE_DB'] = 'EUCLID'
+app.config['MYSQL_DATABASE_DB'] = 'datasets2tools'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
@@ -47,12 +52,12 @@ mysql.init_app(app)
 def main():
 	return render_template('index.html')
 
-### 2.1.2 New canned Analysis
-@app.route('/new')
-def new():
-	return render_template('new.html')
-
-
+### 2.1.2 Save canned Analysis
+@app.route('/save')
+def save():
+	# Query tools
+	tool_dataframe = executeQuery("SELECT * FROM tool", mysql)
+	return render_template('save.html', tool_dataframe=tool_dataframe)
 
 
 

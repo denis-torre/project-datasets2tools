@@ -26,7 +26,7 @@ SET FOREIGN_KEY_CHECKS=0;
 #######################################################
 
 ##############################
-##### 1.1 Database
+##### 2.1 Database
 ##############################
 
 DROP TABLE IF EXISTS `db`;
@@ -37,7 +37,7 @@ CREATE TABLE `db` (
 );
 
 ##############################
-##### 1.2 Dataset
+##### 2.2 Dataset
 ##############################
 
 DROP TABLE IF EXISTS `dataset`;
@@ -54,7 +54,7 @@ CREATE TABLE `dataset` (
 );
 
 ##############################
-##### 1.3 Tool
+##### 2.3 Tool
 ##############################
 
 DROP TABLE IF EXISTS `tool`;
@@ -68,7 +68,7 @@ CREATE TABLE `tool` (
 );
 
 ##############################
-##### 1.4 Attribute
+##### 2.4 Attribute
 ##############################
 
 DROP TABLE IF EXISTS `attribute`;
@@ -86,7 +86,7 @@ CREATE TABLE `attribute` (
 );
 
 ##############################
-##### 1.5 Attribute value
+##### 2.5 Attribute value
 ##############################
 
 DROP TABLE IF EXISTS `attribute_value`;
@@ -103,7 +103,7 @@ CREATE TABLE `attribute_value` (
 );
 
 ##############################
-##### 1.6 Analysis
+##### 2.6 Analysis
 ##############################
 
 DROP TABLE IF EXISTS `analysis`;
@@ -124,7 +124,7 @@ CREATE TABLE `analysis` (
 );
 
 ##############################
-##### 1.7 Analysis result
+##### 2.7 Analysis result
 ##############################
 
 DROP TABLE IF EXISTS `analysis_result`;
