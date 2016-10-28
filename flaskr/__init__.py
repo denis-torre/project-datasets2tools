@@ -52,12 +52,18 @@ mysql.init_app(app)
 def main():
 	return render_template('index.html')
 
-### 2.1.2 Save canned Analysis
+### 2.1.2 Save Canned Analysis
 @app.route('/save')
 def save():
 	# Query tools
 	tool_dataframe = executeQuery("SELECT * FROM tool", mysql)
 	return render_template('save.html', tool_dataframe=tool_dataframe)
+
+### 2.1.3 Dataset Search
+@app.route('/datasetSearch', methods=['POST'])
+def datasetSearch():
+	dataset_search_query = request.form['dataset_search_query']
+	return dataset_search_query
 
 
 

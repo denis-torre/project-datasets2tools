@@ -94,6 +94,7 @@
                 <form id="upload-form">
 
                     <!-- SECTION 1 - DATASET -->
+                    <!-- DATASET SELECTION METHOD -->
                     <table class="table input-group">
                         <caption class="first">Please input or select dataset.</caption>
                             <tr>
@@ -105,6 +106,7 @@
                             </tr>
                     </table>
 
+                    <!-- DATASET SEARCH -->
                     <div class="table input-group" id="dataset_selection_search" style="display:none">
                             <b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSearch Dataset using API.</b> <br><br>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbspAutomatically fills in required fields:
@@ -118,7 +120,22 @@
                             </ul>
                     </div>
                     
+                    <!-- DATASET MANUAL SELECTION -->
                     <div class="table input-group" id="dataset_selection_manual" style="display:none">
+
+                            <h5> Search dataset: </h5>
+                            <form id="dataset_selection_manual_form" action="datasetSearch" method="post" role="form">
+                                <input type="text" class="form-control input-sm" name="dataset_search_query" value="">
+                            </form>
+                            <br>
+                            <br>
+                            <br>
+                            <button id="dataset_search_button" type="button"> Search! </button>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             <b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspManually specify dataset.</b> <br><br>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbspRequires the user to specify the following fields:
                             <ul>
@@ -133,6 +150,7 @@
                     </div>
                     
                     <!-- SECTION 2 - TOOL -->
+                    <!-- TOOL SELECTION METHOD -->
                     <table class="table input-group">
                         <caption class="first">Please input or select tool.</caption>
                             <tr>
@@ -144,34 +162,27 @@
                             </tr>
                     </table>
 
-
+                    <!-- TOOL SEARCH -->
                     <div class="table input-group" id="tool_selection_search" style="display:none">
 
                             <!-- Interactive Tool Selector -->
                             <div>
-                                <select class="selectpicker" title="Select Tool..." data-width="50%">
+                                <h5> Choose tool from database: </h5>
+                                <form id="tool_selection_form">
+                                    <select name="tool_id" class="selectpicker" title="Select..." data-width="50%" style="border-color:black;border-radius: 1;">
 
-                                {% for icon_url, name in tool_dataframe[['icon_url', 'name']].as_matrix() %}
+                                    {% for id, icon_url, name in tool_dataframe[['id', 'icon_url', 'name']].as_matrix() %}
 
-                                    <option data-subtext="<img src='{{ icon_url }}', style='width:20px;height:20px;align:right'></img>"> {{ name }} </option>
+                                        <option value="{{ id }}" data-subtext="<img src='{{ icon_url }}', style='width:20px;height:20px;align:right'></img>"> {{ name }} </option>
 
-                                {% endfor %}
-                                </select>
+                                    {% endfor %}
+                                    </select>
+                                </form>
                             </div>
-                            
-                            <br>
-                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbspAutomatically fills in required fields:
-                            <ul>
-                            <ul>
-                                <li> Tool URL </li>
-                                <li> Tool Name </li>
-                                <li> Tool Icon </li>
-                                <li> If applicable: Tool developer name/URL, Tool video tutorial etc. </li>
-                            </ul>
-                            </ul>
 
                     </div>
-                    
+
+                    <!-- MANUAL TOOL SELECTION -->
                     <div class="table input-group" id="tool_selection_manual" style="display:none">
                           <b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspManually specify tool.</b> <br><br>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbspRequires the user to specify the following fields:
@@ -197,7 +208,7 @@
 
                                 Optional metadata:
                             <ul>
-               <!--                  <li> Cell type or tissue </li>
+       <!--                  <li> Cell type or tissue </li>
                                 <li> Perturbation </li>
                                 <li> Manipulated gene </li>
                                 <li> Relevant disease </li> -->
@@ -249,6 +260,23 @@
 
                     <h1>Testing area:</h1>
 
+                    <div id='test123'> hello </div>
+
+                    <script type="text/javascript">
+
+                        $('#tool_selection_form').change(function(){
+                            var fields = {}
+                            $(this).find(':input').each(function(){
+                                fields[this.name] = $(this).val();
+                            });
+
+                            document.getElementById('test123').innerHTML = fields['tool_id'];
+
+                        })
+                        
+                    </script>
+
+
                     <script type="text/javascript">
 
                         // Add listener for changes in dataset selection
@@ -284,12 +312,10 @@
 
                         // Add function to 
                         $(function() {
-                            $('button').click(function() {
-                                var user = $('#txtUsername').val();
-                                var pass = $('#txtPassword').val();
+                            $('#dataset_search_button').click(function() {
                                 $.ajax({
-                                    url: '/signUpUser',
-                                    data: $('form').serialize(),
+                                    url: '/datasetSearch',
+                                    data: $('#dataset_selection_manual_form').serialize(),
                                     type: 'POST',
                                     success: function(response) {
                                         console.log(response);

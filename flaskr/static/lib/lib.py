@@ -19,10 +19,10 @@ import pandas as pd
 #######################################################
 
 ##############################
-##### 2.1 Call MySQL SP
+##### 2.1 Call MySQL Query
 ##############################
 
-# Calls MySQL Procedure and returns a table
+# Executes MySQL Query and returns a table
 
 def executeQuery(query, mysql_engine):
 	
