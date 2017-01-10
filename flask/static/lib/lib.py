@@ -36,10 +36,7 @@ from flaskext.mysql import MySQL
 # 	with open(databaseConnectionFile, 'r') as openfile:
 
 # 		# Get JSON
-# 		databaseConnectionJson = openfile.readlines()[0]
-
-# 	# Convert to Dictionary
-# 	databaseConnectionDict = json.loads(databaseConnectionJson)
+# 		databaseConnectionDict = json.load(openfile)
 
 # 	# Initialize MySQL Connection
 # 	mysql = MySQL()
@@ -113,11 +110,11 @@ def getCannedAnalysisDataframe(datasetAccessions, mysqlEngine):
 	datasetAccessionString = "', '".join(datasetAccessions)
 	
 	# Create Query String
-	queryString = ''' SELECT ca.id AS canned_analysis_id, accession, tool_fk AS tool_id, link AS canned_analysis_url
+	queryString = ''' SELECT ca.id AS canned_analysis_id, dataset_accession, tool_fk AS tool_id, canned_analysis_url
 					  FROM canned_analysis ca
 					  LEFT JOIN dataset d
 					  ON d.id = ca.dataset_fk
-					  WHERE accession IN ('%(datasetAccessionString)s') ''' % locals()
+					  WHERE dataset_accession IN ('%(datasetAccessionString)s') ''' % locals()
 
 	# Perform Query
 	canned_analysis_dataframe = executeQuery(queryString, mysqlEngine)#.set_index('canned_analysis_id')
@@ -141,7 +138,7 @@ def getCannedAnalysisMetadataDataframe(datasetAccessions, mysqlEngine):
 						  ON ca.id = cam.canned_analysis_fk
 						  	LEFT JOIN dataset d
 						  	ON d.id = ca.dataset_fk
-					  WHERE accession IN ('%(datasetAccessionString)s') ''' % locals()
+					  WHERE dataset_accession IN ('%(datasetAccessionString)s') ''' % locals()
 
 	# Perform Query
 	canned_analysis_metadata_dataframe = executeQuery(queryString, mysqlEngine)
@@ -248,7 +245,7 @@ def getCannedAnalysisMetadataDict(canned_analysis_metadata_dataframe):
 def getCannedAnalysisData(canned_analysis_dataframe, canned_analysis_metadata_dict, tool_metadata_dataframe):
 
 	# Define Dictionary
-	canned_analyses_dict = {datasetAccession:{} for datasetAccession in set(canned_analysis_dataframe['accession'])}
+	canned_analyses_dict = {datasetAccession:{} for datasetAccession in set(canned_analysis_dataframe['dataset_accession'])}
 
 	# Get Tool Dict
 	tool_metadata_dict = tool_metadata_dataframe.set_index('id').to_dict('index')
@@ -257,7 +254,7 @@ def getCannedAnalysisData(canned_analysis_dataframe, canned_analysis_metadata_di
 	for datasetAccession in canned_analyses_dict.keys():
 	    
 	    # Get Dataframe Subset
-	    canned_analysis_dataframe_subset = canned_analysis_dataframe.loc[canned_analysis_dataframe['accession'] == datasetAccession, :]
+	    canned_analysis_dataframe_subset = canned_analysis_dataframe.loc[canned_analysis_dataframe['dataset_accession'] == datasetAccession, :]
 
 	    # Loop Through Tools
 	    for toolId in set(canned_analysis_dataframe_subset['tool_id']):
@@ -268,10 +265,15 @@ def getCannedAnalysisData(canned_analysis_dataframe, canned_analysis_metadata_di
 	    	# Loop Through Canned Analyses
 	    	for cannedAnalysisId, cannedAnalysisUrl in canned_analysis_dataframe_subset.loc[canned_analysis_dataframe_subset['tool_id'] == toolId, ['canned_analysis_id', 'canned_analysis_url']].as_matrix():
 	        
-		        # Add URL
-		        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = canned_analysis_metadata_dict[cannedAnalysisId]
+	        	# Add metadata and description
+		        try:
+			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = canned_analysis_metadata_dict[cannedAnalysisId]
+			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId]['description'] = createCannedAnalysisDescription(canned_analysis_metadata_dict[cannedAnalysisId], tool_metadata_dict[toolId]['tool_name'])
+		        except KeyError:
+			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = {}
+
+			    # Add URL
 		        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId]['canned_analysis_url'] = cannedAnalysisUrl
-		        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId]['description'] = createCannedAnalysisDescription(canned_analysis_metadata_dict[cannedAnalysisId], tool_metadata_dict[toolId]['tool_name'])
 
 	# Return Result
 	return {'canned_analyses': canned_analyses_dict, 'tools': tool_metadata_dict}

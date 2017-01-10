@@ -35,7 +35,7 @@ app = Flask(__name__)
 # databaseConnectionFile = 'static/dbconnection/dbconnection.json'
 
 # Connect to MySQL
-# app, mysql = setupMySQLConnection(app, databaseConnectionFile, 'amazon')
+# app, mysql = setupMySQLConnection(app, databaseConnectionFile, 'phpmyadmin')
 app, mysql = setupMySQLConnection(app)
 
 #######################################################

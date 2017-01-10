@@ -1,1 +1,0 @@
-{"local":{"user": "root", "password": "MyNewPass", "db": "datasets2tools_test", "host": "localhost"},"amazon": {"user": "root", "password": "perpetualexemption", "db": "datasets2tools_test", "host": "datasets2tools-mysql-amazon.chxgsk4h4hk0.us-east-1.rds.amazonaws.com"}}
