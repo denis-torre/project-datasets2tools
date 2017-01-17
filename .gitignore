@@ -4,3 +4,4 @@ flask/dev.ipynb
 flask/static/dbconnection
 *.ipynb
 *.pyc
+*test.txt

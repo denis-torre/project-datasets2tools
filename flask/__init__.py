@@ -11,7 +11,7 @@
 ##############################
 ##### 1.1 Python Libraries
 ##############################
-import sys, urlparse, os
+import sys
 import pandas as pd
 from flask import Flask, request, render_template
 
@@ -20,10 +20,11 @@ from flask import Flask, request, render_template
 ##############################
 sys.path.append('static/lib')
 from dbConnection import *
-from API import *
+from chromeExtensionAPI import *
+from dataSubmissionAPI import *
 
 ##############################
-##### 1.2 Setup App
+##### 1.3 Setup App
 ##############################
 # Initialize Flask App
 app = Flask(__name__)
