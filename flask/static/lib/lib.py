@@ -270,7 +270,7 @@ def getCannedAnalysisData(canned_analysis_dataframe, canned_analysis_metadata_di
 			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = canned_analysis_metadata_dict[cannedAnalysisId]
 			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId]['description'] = createCannedAnalysisDescription(canned_analysis_metadata_dict[cannedAnalysisId], tool_metadata_dict[toolId]['tool_name'])
 		        except KeyError:
-			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = {}
+			        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId] = {'description': 'No description available.'}
 
 			    # Add URL
 		        canned_analyses_dict[datasetAccession][toolId][cannedAnalysisId]['canned_analysis_url'] = cannedAnalysisUrl

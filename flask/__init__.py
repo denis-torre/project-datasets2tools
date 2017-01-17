@@ -9,20 +9,18 @@
 #######################################################
 
 ##############################
-##### 1.1 Load Libraries
+##### 1.1 Python Libraries
 ##############################
-# Python Libraries
-# import os
 import sys, urlparse, os
 import pandas as pd
-
-# Flask Libraries
 from flask import Flask, request, render_template
 
-# Custom libraries
-sys.path.append('/datasets2tools/flask/static/lib')
+##############################
+##### 1.2 Custom Libraries
+##############################
 sys.path.append('static/lib')
-from lib import *
+from dbConnection import *
+from API import *
 
 ##############################
 ##### 1.2 Setup App
@@ -30,13 +28,9 @@ from lib import *
 # Initialize Flask App
 app = Flask(__name__)
 
-# Get Connection File
-# databaseConnectionFile = '/app/flaskr/static/dbconnection/dbconnection.json'
-# databaseConnectionFile = 'static/dbconnection/dbconnection.json'
-
 # Connect to MySQL
-# app, mysql = setupMySQLConnection(app, databaseConnectionFile, 'phpmyadmin')
-app, mysql = setupMySQLConnection(app)
+app, mysql = setupLocalMySQLConnection(app)
+# app, mysql = setupMySQLConnection(app)
 
 #######################################################
 ########## 2. Setup Web Page ##########################

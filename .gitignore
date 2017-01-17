@@ -2,3 +2,5 @@ project-datasets2tools-website.sublime-project
 project-datasets2tools-website.sublime-workspace
 flask/dev.ipynb
 flask/static/dbconnection
+*.ipynb
+*.pyc
