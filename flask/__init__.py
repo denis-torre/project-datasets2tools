@@ -18,7 +18,8 @@ from flask import Flask, request, render_template
 ##############################
 ##### 1.2 Custom Libraries
 ##############################
-sys.path.append('static/lib')
+sys.path.append('/datasets2tools/flask/static/lib')
+# sys.path.append('/datasets2tools/flask/static/lib')
 from dbConnection import *
 from chromeExtensionAPI import *
 from dataSubmissionAPI import *
@@ -30,8 +31,8 @@ from dataSubmissionAPI import *
 app = Flask(__name__)
 
 # Connect to MySQL
-app, mysql = setupLocalMySQLConnection(app)
-# app, mysql = setupMySQLConnection(app)
+# app, mysql = setupLocalMySQLConnection(app)
+app, mysql = setupMySQLConnection(app)
 
 #######################################################
 ########## 2. Setup Web Page ##########################
